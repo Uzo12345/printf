@@ -1,67 +1,49 @@
 #include "main.h"
-
-void print_buffer(char myBuffer[], int *bufferIndex);
-
 /**
- * _print - Print function
- * @myFormat: format.
- * Return: Printed characters.
+ * handle_print - Prints an argument based on its type
+ * @fmt: Formatted string in which to print the arguments.
+ * @list: List of arguments to be printed.
+ * @ind: ind.
+ * @buffer: Buffer array to handle print.
+ * @flags: Calculates active flags
+ * @width: get width.
+ * @precision: Precision specification
+ * @size: Size specifier
+ * Return: 1 or 2;
  */
-int _print(const char *myFormat, ...)
+int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	int i, printed = 0, printedChars = 0;
-	int myFlags, myWidth, myPrecision, mySize, bufferIndex = 0;
-	va_list myList;
-	char myBuffer[BUFF_SIZE];
+	int i, unknow_len = 0, printed_chars = -1;
+	fmt_t fmt_types[] = {
+		{'c', print_char}, {'s', print_string}, {'%', print_percent},
+		{'i', print_int}, {'d', print_int}, {'b', print_binary},
+		{'u', print_unsigned}, {'o', print_octal}, {'x', print_hexadecimal},
+		{'X', print_hexa_upper}, {'p', print_pointer}, {'S', print_non_printable},
+		{'r', print_reverse}, {'R', print_rot13string}, {'\0', NULL}
+	};
+	for (i = 0; fmt_types[i].fmt != '\0'; i++)
+		if (fmt[*ind] == fmt_types[i].fmt)
+			return (fmt_types[i].fn(list, buffer, flags, width, precision, size));
 
-	if (myFormat == NULL)
-		return (-1);
-
-	va_start(myList, myFormat);
-
-	for (i = 0; myFormat && myFormat[i] != '\0'; i++)
+	if (fmt_types[i].fmt == '\0')
 	{
-		if (myFormat[i] != '%')
+		if (fmt[*ind] == '\0')
+			return (-1);
+		unknow_len += write(1, "%%", 1);
+		if (fmt[*ind - 1] == ' ')
+			unknow_len += write(1, " ", 1);
+		else if (width)
 		{
-			myBuffer[bufferIndex++] = myFormat[i];
-			if (bufferIndex == BUFF_SIZE)
-				print_buffer(myBuffer, &bufferIndex);
-			/* write(1, &myFormat[i], 1);*/
-			printedChars++;
+			--(*ind);
+			while (fmt[*ind] != ' ' && fmt[*ind] != '%')
+				--(*ind);
+			if (fmt[*ind] == ' ')
+				--(*ind);
+			return (1);
 		}
-		else
-		{
-			print_buffer(myBuffer, &bufferIndex);
-			myFlags = get_flags(myFormat, &i);
-			myWidth = get_width(myFormat, &i, myList);
-			myPrecision = get_precision(myFormat, &i, myList);
-			mySize = get_size(myFormat, &i);
-			++i;
-			printed = handle_print(myFormat, &i, myList, myBuffer,
-				myFlags, myWidth, myPrecision, mySize);
-			if (printed == -1)
-				return (-1);
-			printedChars += printed;
-		}
+		unknow_len += write(1, &fmt[*ind], 1);
+		return (unknow_len);
 	}
-
-	print_buffer(myBuffer, &bufferIndex);
-
-	va_end(myList);
-
-	return (printedChars);
+	return (printed_chars);
 }
-
-/**
- * print_buffer - Prints the contents of the buffer if it exists
- * @myBuffer: Array of chars
- * @bufferIndex: Index at which to add next char, represents the length.
- */
-void print_buffer(char myBuffer[], int *bufferIndex)
-{
-	if (*bufferIndex > 0)
-		write(1, &myBuffer[0], *bufferIndex);
-
-	*bufferIndex = 0;
-}
-
