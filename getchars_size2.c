@@ -7,20 +7,20 @@
  *
  * Return: Precision.
  */
-int getchars_size2(const char *format, int *i)
+int get_size(const char *format, int *i)
 {
 	int curr_i = *i + 1;
-	int sizes = 0;
+	int size = 0;
 
 	if (format[curr_i] == 'l')
-		sizes = S_LONG;
+		size = S_LONG;
 	else if (format[curr_i] == 'h')
-		sizes = S_SHORT;
+		size = S_SHORT;
 
-	if (sizes == 0)
+	if (size == 0)
 		*i = curr_i - 1;
 	else
 		*i = curr_i;
 
-	return (sizes);
+	return (size);
 }

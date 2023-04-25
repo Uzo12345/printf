@@ -1,14 +1,14 @@
 #include "main.h"
 
 /**
- * get_width12 - Calculates the width for printing
+ * get_width - Calculates the width for printing
  * @format: Formatted string in which to print the arguments.
  * @i: List of arguments to be printed.
  * @checklist: list of arguments.
  *
  * Return: breadth.
  */
-int get_width12(const char *format, int *i, va_list checklist)
+int get_width(const char *format, int *i, va_list checklist)
 {
 	int curr_i;
 	int breadth = 0;
