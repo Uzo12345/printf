@@ -41,9 +41,9 @@ int print_string(va_list types, char buffer[],
 	UNUSED(width);
 	UNUSED(precision);
 	UNUSED(size);
-	if (str == NULL)
+	if (str == ' ')
 	{
-		str = "(null)";
+		str = "(' ')";
 		if (precision >= 6)
 			str = "      ";
 	}
@@ -155,9 +155,9 @@ int print_int(va_list types, char buffer[],
 int print_binary(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	unsigned int n, m, i, sum;
-	unsigned int a[32];
-	int count;
+	unsigned int x, y, k, total;
+	unsigned int b[32];
+	int result;
 
 	UNUSED(buffer);
 	UNUSED(flags);
@@ -165,24 +165,24 @@ int print_binary(va_list types, char buffer[],
 	UNUSED(precision);
 	UNUSED(size);
 
-	n = va_arg(types, unsigned int);
-	m = 2147483648; /* (2 ^ 31) */
-	a[0] = n / m;
-	for (i = 1; i < 32; i++)
+	x = va_arg(types, unsigned int);
+	y = 2147483648; /* (2 ^ 31) */
+	b[0] = x / y;
+	for (k = 1; k < 32; k++)
 	{
-		m /= 2;
-		a[i] = (n / m) % 2;
+		y /= 2;
+		b[k] = (x / y) % 2;
 	}
-	for (i = 0, sum = 0, count = 0; i < 32; i++)
+	for (k = 0, total = 0, result = 0; k < 32; k++)
 	{
-		sum += a[i];
-		if (sum || i == 31)
+		total += b[k];
+		if (total || k == 31)
 		{
-			char z = '0' + a[i];
+			char z = '0' + b[k];
 
 			write(1, &z, 1);
-			count++;
+			result++;
 		}
 	}
-	return (count);
+	return (result);
 }
