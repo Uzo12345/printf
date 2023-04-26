@@ -2,7 +2,7 @@
 
 /**
  * get_flags - Calculates active flag
- * @format: Formatted string in which to print the arguments
+ * @fmt: Formatted string in which to print the arguments
  * @i: take a parameter.
  * Return: Flag:
  */
@@ -13,14 +13,14 @@ int get_flags(const char *format, int *i)
 	int k, curr_i;
 	int flag = 0;
 	const char FLAG_CH[] = {'-', '+', '0', '#', ' ', '\0'};
-	const int FLAG_ARR[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
+	const int FLAG_ARRANGE[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
 
-	for (curr_i = *i + 1; format[curr_i] != '\0'; curr_i++)
+	for (curr_i = *i + 1; fmt[curr_i] != '\0'; curr_i++)
 	{
 		for (k = 0; FLAG_CH[k] != '\0'; k++)
-			if (format[curr_i] == FLAG_CH[k])
+			if (fmt[curr_i] == FLAG_CH[k])
 			{
-				flag |= FLAG_ARR[k];
+				flag |= FLAG_ARRANGE[k];
 				break;
 			}
 
