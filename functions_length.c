@@ -33,7 +33,7 @@ int print_char(va_list types, char buffer[],
 int print_string(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int length = 0, i;
+	int length = 0, k ;
 	char *str = va_arg(types, char *);
 
 	UNUSED(buffer);
@@ -59,13 +59,13 @@ int print_string(va_list types, char buffer[],
 		if (flags & F_MINUS)
 		{
 			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
+			for (k = width - length; k > 0; k--)
 				write(1, " ", 1);
 			return (width);
 		}
 		else
 		{
-			for (i = width - length; i > 0; i--)
+			for (k = width - length; k > 0; k--)
 				write(1, " ", 1);
 			write(1, &str[0], length);
 			return (width);
@@ -111,34 +111,34 @@ int print_percent(va_list types, char buffer[],
 int print_int(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int i = BUFF_SIZE - 2;
+	int k = BUFF_SIZE - 2;
 	int is_negative = 0;
-	long int n = va_arg(types, long int);
+	long int x = va_arg(types, long int);
 	unsigned long int num;
 
-	n = convert_size_number(n, size);
+	x = convert_size_number(x, size);
 
-	if (n == 0)
-		buffer[i--] = '0';
+	if (x == 0)
+		buffer[k--] = '0';
 
 	buffer[BUFF_SIZE - 1] = '\0';
-	num = (unsigned long int)n;
+	num = (unsigned long int)x;
 
-	if (n < 0)
+	if (x < 0)
 	{
-		num = (unsigned long int)((-1) * n);
+		num = (unsigned long int)((-1) * x);
 		is_negative = 1;
 	}
 
 	while (num > 0)
 	{
-		buffer[i--] = (num % 10) + '0';
+		buffer[k--] = (num % 10) + '0';
 		num /= 10;
 	}
 
-	i++;
+	k++;
 
-	return (write_number(is_negative, i, buffer, flags, width, precision, size));
+	return (write_number(is_negative, k, buffer, flags, width, precision, size));
 }
 
 /************************* PRINT BINARY *************************/
@@ -157,7 +157,7 @@ int print_binary(va_list types, char buffer[],
 {
 	unsigned int x, y, k, total;
 	unsigned int b[32];
-	int result;
+	int count;
 
 	UNUSED(buffer);
 	UNUSED(flags);
@@ -173,7 +173,7 @@ int print_binary(va_list types, char buffer[],
 		y /= 2;
 		b[k] = (x / y) % 2;
 	}
-	for (k = 0, total = 0, result = 0; k < 32; k++)
+	for (k = 0, total = 0, count = 0; k < 32; k++)
 	{
 		total += b[k];
 		if (total || k == 31)
@@ -181,8 +181,8 @@ int print_binary(va_list types, char buffer[],
 			char z = '0' + b[k];
 
 			write(1, &z, 1);
-			result++;
+			count++;
 		}
 	}
-	return (result);
+	return (count);
 }
