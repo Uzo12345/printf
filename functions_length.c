@@ -157,7 +157,7 @@ int print_binary(va_list types, char buffer[],
 {
 	unsigned int x, y, k, total;
 	unsigned int b[32];
-	int count;
+	int result;
 
 	UNUSED(buffer);
 	UNUSED(flags);
