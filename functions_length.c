@@ -41,9 +41,9 @@ int print_string(va_list types, char buffer[],
 	UNUSED(width);
 	UNUSED(precision);
 	UNUSED(size);
-	if (str == ' ')
+	if (str == NULL)
 	{
-		str = "(' ')";
+		str = "(null)";
 		if (precision >= 6)
 			str = "      ";
 	}
