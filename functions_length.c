@@ -173,7 +173,7 @@ int print_binary(va_list types, char buffer[],
 		y /= 2;
 		b[k] = (x / y) % 2;
 	}
-	for (k = 0, total = 0, count = 0; k < 32; k++)
+	for (k = 0, total = 0, result = 0; k < 32; k++)
 	{
 		total += b[k];
 		if (total || k == 31)
@@ -181,8 +181,8 @@ int print_binary(va_list types, char buffer[],
 			char z = '0' + b[k];
 
 			write(1, &z, 1);
-			count++;
+			result++;
 		}
 	}
-	return (count);
+	return (result);
 }
