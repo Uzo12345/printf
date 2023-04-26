@@ -116,7 +116,7 @@ int write_num(int index, char buffer[],
 		{
 			if (extra_c)
 				buffer[--index] = extra_c;
-			return (write(1, &buffer[ind], length) + write(1, &buffer[1], i - 1));
+			return (write(1, &buffer[index], length) + write(1, &buffer[1], i - 1));
 		}
 		else if (!(flags & F_MINUS) && padd == ' ')/* extra char to left of buff */
 		{
@@ -129,7 +129,7 @@ int write_num(int index, char buffer[],
 			if (extra_c)
 				buffer[--padd_start] = extra_c;
 			return (write(1, &buffer[padd_start], i - padd_start) +
-				write(1, &buffer[ind], length - (1 - padd_start)));
+				write(1, &buffer[index], length - (1 - padd_start)));
 		}
 	}
 	if (extra_c)
@@ -184,7 +184,7 @@ int write_unsgnd(int is_negative, int index,
 
 		if (flags & F_MINUS) /* Asign extra char to left of buffer [buffer>padd]*/
 		{
-			return (write(1, &buffer[inexd], length) + write(1, &buffer[0], i));
+			return (write(1, &buffer[index], length) + write(1, &buffer[0], i));
 		}
 		else /* Asign extra char to left of padding [padd>buffer]*/
 		{
