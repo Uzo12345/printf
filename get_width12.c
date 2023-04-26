@@ -1,16 +1,4 @@
-#include <stdarg.h>
 #include "main.h"
-
-/**
- * is_digit - Checks if a character is a digit.
- * @c: The character to be checked.
- *
- * Return: 1 if @c is a digit; 0 otherwise.
- */
-int is_digit(char c)
-{
-	return (c >= '0' && c <= '9');
-}
 
 /**
  * get_width - Calculates the width for printing
