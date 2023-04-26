@@ -3,7 +3,7 @@
 /************************* WRITE HANDLE *************************/
 /**
  * handle_write_char - Prints a string
- * @z: char types.
+ * @c: char types.
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags.
  * @width: get width.
@@ -12,7 +12,7 @@
  *
  * Return: Number of chars printed.
  */
-int handle_write_char(char z, char buffer[],
+int handle_write_char(char c, char buffer[],
 	int flags, int width, int precision, int size)
 { /* char is stored at left and paddind at buffer's right */
 	int j = 0;
@@ -24,7 +24,7 @@ int handle_write_char(char z, char buffer[],
 	if (flags & F_ZERO)
 		padd = '0';
 
-	buffer[j++] = z;
+	buffer[j++] = c;
 	buffer[j] = '\0';
 
 	if (width > 1)
